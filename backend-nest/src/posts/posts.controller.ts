@@ -12,6 +12,11 @@ export class PostsController {
     return this.postsService.create(createPostDto);
   }
 
+  @Post('bulk')
+  bulkCreate(@Body() createPostsDto: CreatePostDto[]) {
+    return this.postsService.bulkCreate(createPostsDto);
+  }
+
   @Get()
   findAll() {
     return this.postsService.findAll();
@@ -19,16 +24,16 @@ export class PostsController {
 
   @Get(':id')
   findOne(@Param('id') id: string) {
-    return this.postsService.findOne(+id);
+    return this.postsService.findOne(id);
   }
 
   @Patch(':id')
   update(@Param('id') id: string, @Body() updatePostDto: UpdatePostDto) {
-    return this.postsService.update(+id, updatePostDto);
+    return this.postsService.update(id, updatePostDto);
   }
 
   @Delete(':id')
   remove(@Param('id') id: string) {
-    return this.postsService.remove(+id);
+    return this.postsService.remove(id);
   }
 }
