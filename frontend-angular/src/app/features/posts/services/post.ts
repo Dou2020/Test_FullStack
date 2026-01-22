@@ -8,16 +8,12 @@ import { Post as PostModel } from '../model/post.model';
 })
 export class Post {
 
-  private apiUrl = process.env['URL'] + '/posts';
+  private apiUrl = 'http://localhost:3000/api/posts';
   
   constructor(private http: HttpClient) {}
 
   getPosts(): Observable<PostModel[]> {
-    try {
-      return this.http.get<PostModel[]>(this.apiUrl);
-    } catch (error) {
-      throw new Error('Error fetching posts');
-    }
+    return this.http.get<PostModel[]>(this.apiUrl);
   }
 
   getPostById(id: string): Observable<PostModel> {
