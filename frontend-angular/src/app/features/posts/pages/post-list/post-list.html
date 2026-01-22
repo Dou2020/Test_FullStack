@@ -10,15 +10,17 @@
           Explora nuestros artículos y publicaciones
         </p>
       </div>
-      <button
-        (click)="createNewPost()"
-        class="bg-indigo-600 hover:bg-indigo-700 text-white px-6 py-3 rounded-lg font-medium transition-colors shadow-md flex items-center gap-2 justify-center sm:justify-start"
-      >
-        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="currentColor" viewBox="0 0 16 16">
-          <path d="M8 4a.5.5 0 0 1 .5.5v3h3a.5.5 0 0 1 0 1h-3v3a.5.5 0 0 1-1 0v-3h-3a.5.5 0 0 1 0-1h3v-3A.5.5 0 0 1 8 4z"/>
-        </svg>
-        Nuevo Post
-      </button>
+      @if (isAuthenticated) {
+        <button
+          (click)="createNewPost()"
+          class="bg-indigo-600 hover:bg-indigo-700 text-white px-6 py-3 rounded-lg font-medium transition-colors shadow-md flex items-center gap-2 justify-center sm:justify-start"
+        >
+          <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="currentColor" viewBox="0 0 16 16">
+            <path d="M8 4a.5.5 0 0 1 .5.5v3h3a.5.5 0 0 1 0 1h-3v3a.5.5 0 0 1-1 0v-3h-3a.5.5 0 0 1 0-1h3v-3A.5.5 0 0 1 8 4z"/>
+          </svg>
+          Nuevo Post
+        </button>
+      }
     </div>
 
     <!-- Loading Spinner -->
@@ -72,6 +74,7 @@
         @for (post of posts; track post._id) {
           <app-post-item
             [post]="post"
+            [isAuthenticated]="isAuthenticated"
             (onEdit)="handleEdit($event)"
             (onDelete)="handleDelete($event)"
             (onView)="handleView($event)"

@@ -55,18 +55,20 @@
       >
         Ver detalles
       </button>
-      <button 
-        (click)="editPost()"
-        class="flex-1 bg-yellow-500 hover:bg-yellow-600 text-white px-3 py-2 sm:px-4 sm:py-2 rounded-lg text-sm sm:text-base font-medium transition-colors duration-200 shadow-sm hover:shadow-md"
-      >
-        Editar
-      </button>
-      <button 
-        (click)="deletePost()"
-        class="flex-1 bg-red-500 hover:bg-red-600 text-white px-3 py-2 sm:px-4 sm:py-2 rounded-lg text-sm sm:text-base font-medium transition-colors duration-200 shadow-sm hover:shadow-md"
-      >
-        Eliminar
-      </button>
+      @if (isAuthenticated) {
+        <button 
+          (click)="editPost()"
+          class="flex-1 bg-yellow-500 hover:bg-yellow-600 text-white px-3 py-2 sm:px-4 sm:py-2 rounded-lg text-sm sm:text-base font-medium transition-colors duration-200 shadow-sm hover:shadow-md"
+        >
+          Editar
+        </button>
+        <button 
+          (click)="deletePost()"
+          class="flex-1 bg-red-500 hover:bg-red-600 text-white px-3 py-2 sm:px-4 sm:py-2 rounded-lg text-sm sm:text-base font-medium transition-colors duration-200 shadow-sm hover:shadow-md"
+        >
+          Eliminar
+        </button>
+      }
     </div>
   </div>
 </article>

@@ -10,6 +10,7 @@ import { CommonModule } from '@angular/common';
 })
 export class PostItem {
   @Input() post!: Post;
+  @Input() isAuthenticated = false;
   @Output() onEdit = new EventEmitter<Post>();
   @Output() onDelete = new EventEmitter<string>();
   @Output() onView = new EventEmitter<string>();

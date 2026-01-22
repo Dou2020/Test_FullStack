@@ -6,6 +6,7 @@ import { Post as PostService } from '../../services/post';
 import { LoadingSpinner } from '../../../../shared';
 import { CommentList } from '../../../comments/components/comment-list/comment-list';
 import { Comment } from '../../../comments/model/comment.model';
+import { ApiService } from '../../../../core/services/api';
 
 @Component({
   selector: 'app-post-detail',
@@ -19,14 +20,18 @@ export class PostDetail implements OnInit {
   error: string | null = null;
   postId: string | null = null;
   currentPost: PostModel | null = null;
+  isAuthenticated = false;
 
   constructor(
     private postService: PostService,
     private route: ActivatedRoute,
-    private router: Router
+    private router: Router,
+    private apiService: ApiService
   ) {}
 
   ngOnInit(): void {
+    this.isAuthenticated = this.apiService.isAuthenticated();
+    
     this.route.paramMap.subscribe(params => {
       this.postId = params.get('id');
       

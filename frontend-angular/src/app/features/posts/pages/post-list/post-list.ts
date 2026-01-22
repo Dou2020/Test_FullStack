@@ -5,6 +5,7 @@ import { Post as PostModel } from '../../model/post.model';
 import { Post as PostService } from '../../services/post';
 import { PostItem } from '../../components/post-item/post-item';
 import { LoadingSpinner, EmptyState, ConfirmDialog } from '../../../../shared';
+import { ApiService } from '../../../../core/services/api';
 
 @Component({
   selector: 'app-post-list',
@@ -19,16 +20,19 @@ export class PostList implements OnInit {
   showDeleteDialog = false;
   postToDelete: string | null = null;
   isDeleting = false;
+  isAuthenticated = false;
   private platformId = inject(PLATFORM_ID);
 
   constructor(
     private postService: PostService,
-    private router: Router
+    private router: Router,
+    private apiService: ApiService
   ) {}
 
   ngOnInit(): void {
     // Solo ejecutar en el navegador, no en SSR
     if (isPlatformBrowser(this.platformId)) {
+      this.isAuthenticated = this.apiService.isAuthenticated();
       this.loadPosts();
     }
   }
