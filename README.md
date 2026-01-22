@@ -465,21 +465,6 @@ docker-compose logs --tail=100
 docker-compose logs -f backend
 ```
 
----
-
-## 🤝 Contribución
-
-1. Fork el proyecto
-2. Crear rama de feature (`git checkout -b feature/AmazingFeature`)
-3. Commit cambios (`git commit -m 'Add AmazingFeature'`)
-4. Push a la rama (`git push origin feature/AmazingFeature`)
-5. Abrir Pull Request
-
----
-
-## 📝 Licencia
-
-Este proyecto es privado y confidencial.
 
 ---
 
