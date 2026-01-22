@@ -20,6 +20,10 @@ export class CommentsService {
     return this.commentModel.find({ deleteAt: { $exists: false } }).exec();
   }
 
+  findByPostId(postId: string) {
+    return this.commentModel.find({ postId, deleteAt: { $exists: false } }).sort({ createdAt: -1 }).exec();
+  }
+
   findOne(id: string) {
     return this.commentModel.findOne({ _id: id, deleteAt: { $exists: false } }).exec();
   }
