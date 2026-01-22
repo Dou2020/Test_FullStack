@@ -13,7 +13,11 @@ export class Post {
   constructor(private http: HttpClient) {}
 
   getPosts(): Observable<PostModel[]> {
-    return this.http.get<PostModel[]>(this.apiUrl);
+    try {
+      return this.http.get<PostModel[]>(this.apiUrl);
+    } catch (error) {
+      throw new Error('Error fetching posts');
+    }
   }
 
   getPostById(id: string): Observable<PostModel> {
