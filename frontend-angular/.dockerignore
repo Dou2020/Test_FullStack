@@ -1,0 +1,17 @@
+node_modules
+npm-debug.log
+dist
+.angular
+coverage
+.env
+.env.*
+.git
+.gitignore
+README.md
+.vscode
+.idea
+*.md
+e2e
+*.spec.ts
+.editorconfig
+karma.conf.js

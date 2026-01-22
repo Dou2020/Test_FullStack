@@ -1,0 +1,89 @@
+version: '3.8'
+
+services:
+  # MongoDB Database for Development
+  mongodb:
+    image: mongo:6
+    container_name: blog-mongodb-dev
+    restart: unless-stopped
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: admin
+      MONGO_INITDB_ROOT_PASSWORD: admin123
+      MONGO_INITDB_DATABASE: blog_db
+    ports:
+      - "27017:27017"
+    volumes:
+      - mongodb_dev_data:/data/db
+    networks:
+      - blog-dev-network
+
+  # Backend NestJS API (Development mode with hot reload)
+  backend:
+    build:
+      context: ./backend-nest
+      dockerfile: Dockerfile.dev
+    container_name: blog-backend-dev
+    restart: unless-stopped
+    environment:
+      PORT: 3000
+      NODE_ENV: development
+      MONGODB_URI: mongodb://admin:admin123@mongodb:27017/blog_db?authSource=admin
+      JWT_SECRET: dev_secret_key
+      JWT_EXPIRES_IN: 24h
+      CORS_ORIGIN: http://localhost:4200
+    ports:
+      - "3000:3000"
+    depends_on:
+      - mongodb
+    networks:
+      - blog-dev-network
+    volumes:
+      - ./backend-nest:/app
+      - /app/node_modules
+    command: npm run start:dev
+
+  # Frontend Angular (Development mode with hot reload)
+  frontend:
+    build:
+      context: ./frontend-angular
+      dockerfile: Dockerfile.dev
+    container_name: blog-frontend-dev
+    restart: unless-stopped
+    environment:
+      - NODE_ENV=development
+    ports:
+      - "4200:4200"
+    depends_on:
+      - backend
+    networks:
+      - blog-dev-network
+    volumes:
+      - ./frontend-angular:/app
+      - /app/node_modules
+    command: npm run start
+
+  # MongoDB Express for database management
+  mongo-express:
+    image: mongo-express:latest
+    container_name: blog-mongo-express-dev
+    restart: unless-stopped
+    environment:
+      ME_CONFIG_MONGODB_ADMINUSERNAME: admin
+      ME_CONFIG_MONGODB_ADMINPASSWORD: admin123
+      ME_CONFIG_MONGODB_URL: mongodb://admin:admin123@mongodb:27017/
+      ME_CONFIG_BASICAUTH_USERNAME: admin
+      ME_CONFIG_BASICAUTH_PASSWORD: admin
+    ports:
+      - "8081:8081"
+    depends_on:
+      - mongodb
+    networks:
+      - blog-dev-network
+
+networks:
+  blog-dev-network:
+    driver: bridge
+
+volumes:
+  mongodb_dev_data:
+    driver: local

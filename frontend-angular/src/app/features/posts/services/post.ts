@@ -26,7 +26,7 @@ export class Post {
   }
 
   updatePost(id: string, post: PostModel): Observable<PostModel> {
-    return this.http.put<PostModel>(`${this.apiUrl}/${id}`, post);
+    return this.http.patch<PostModel>(`${this.apiUrl}/${id}`, post);
   }
 
   deletePost(id: string): Observable<void> {
