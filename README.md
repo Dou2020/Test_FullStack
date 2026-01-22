@@ -493,14 +493,5 @@ docker-compose logs -f backend
 
 ---
 
-## 📞 Soporte
-
-Para problemas o preguntas:
-1. Revisar logs: `docker-compose logs -f`
-2. Verificar documentación en READMEs específicos
-3. Revisar issues conocidos
-
----
-
 **Versión**: 1.0.0  
 **Última Actualización**: Enero 2026

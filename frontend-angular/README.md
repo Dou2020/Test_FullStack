@@ -786,21 +786,6 @@ export class MiComponente {
 
 ---
 
-## 🤝 Contribución
-
-1. Fork el proyecto
-2. Crear rama de feature (`git checkout -b feature/AmazingFeature`)
-3. Commit de cambios (`git commit -m 'Add some AmazingFeature'`)
-4. Push a la rama (`git push origin feature/AmazingFeature`)
-5. Abrir Pull Request
-
----
-
-## 📝 Licencia
-
-Este proyecto es privado y confidencial.
-
----
 
 ## 👥 Equipo de Desarrollo
 
@@ -810,12 +795,6 @@ Este proyecto es privado y confidencial.
 - **HTTP Client**: Angular HttpClient
 - **Authentication**: JWT
 - **Forms**: Reactive Forms
-
----
-
-## 📞 Soporte
-
-Para soporte o consultas, contactar al equipo de desarrollo.
 
 ---
 
