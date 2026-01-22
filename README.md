@@ -75,16 +75,16 @@ git clone <repository-url>
 cd prueba_job
 
 # 2. Construir y levantar contenedores
-docker-compose up -d
+docker compose up -d
 
 # 3. Ver logs
-docker-compose logs -f
+docker compose logs -f
 
 # 4. Detener servicios
-docker-compose down
+docker compose down
 
 # 5. Detener y eliminar volúmenes (limpieza completa)
-docker-compose down -v
+docker compose down -v
 ```
 
 **Servicios disponibles:**
