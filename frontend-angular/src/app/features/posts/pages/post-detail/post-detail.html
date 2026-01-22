@@ -1,1 +1,191 @@
-<p>post-detail works!</p>
+<div class="min-h-screen bg-gray-50 py-8 px-4 sm:px-6 lg:px-8">
+  <div class="max-w-3xl mx-auto">
+    <!-- Header -->
+    <div class="mb-8">
+      <button
+        (click)="goBack()"
+        class="mb-4 text-indigo-600 hover:text-indigo-700 flex items-center gap-2 font-medium transition-colors"
+      >
+        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="currentColor" viewBox="0 0 16 16">
+          <path fill-rule="evenodd" d="M15 8a.5.5 0 0 0-.5-.5H2.707l3.147-3.146a.5.5 0 1 0-.708-.708l-4 4a.5.5 0 0 0 0 .708l4 4a.5.5 0 0 0 .708-.708L2.707 8.5H14.5A.5.5 0 0 0 15 8z"/>
+        </svg>
+        Volver a la lista
+      </button>
+      <h1 class="text-4xl font-bold text-gray-900">{{ getTitle() }}</h1>
+    </div>
+
+    <!-- Loading Spinner -->
+    @if (isLoading) {
+      <app-loading-spinner 
+        [overlay]="false" 
+        size="large" 
+        message="Cargando post...">
+      </app-loading-spinner>
+    }
+
+    <!-- Error -->
+    @if (error && !isLoading) {
+      <div class="bg-red-50 border-l-4 border-red-500 p-4 mb-6 rounded-r-lg">
+        <div class="flex items-start">
+          <svg class="h-5 w-5 text-red-500 mt-0.5 mr-3 flex-shrink-0" fill="currentColor" viewBox="0 0 16 16">
+            <path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14zm0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16z"/>
+            <path d="M7.002 11a1 1 0 1 1 2 0 1 1 0 0 1-2 0zM7.1 4.995a.905.905 0 1 1 1.8 0l-.35 3.507a.552.552 0 0 1-1.1 0L7.1 4.995z"/>
+          </svg>
+          <p class="text-sm font-medium text-red-800">{{ error }}</p>
+        </div>
+      </div>
+    }
+
+    <!-- Form -->
+    @if (!isLoading) {
+      <div class="bg-white shadow-md rounded-lg p-6 sm:p-8">
+        <!-- View Mode Actions -->
+        @if (isViewMode) {
+          <div class="mb-6 flex gap-3">
+            <button
+              (click)="enableEdit()"
+              class="bg-indigo-600 hover:bg-indigo-700 text-white px-6 py-2 rounded-lg font-medium transition-colors"
+            >
+              Editar
+            </button>
+          </div>
+        }
+
+        <form [formGroup]="postForm" (ngSubmit)="onSubmit()">
+          <!-- Title -->
+          <div class="mb-6">
+            <label for="title" class="block text-sm font-medium text-gray-700 mb-2">
+              Título *
+            </label>
+            <input
+              id="title"
+              type="text"
+              formControlName="title"
+              class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-transparent transition-colors"
+              [class.border-red-500]="postForm.get('title')?.invalid && postForm.get('title')?.touched"
+            />
+            <app-error-message 
+              [control]="postForm.get('title')" 
+              fieldName="El título">
+            </app-error-message>
+          </div>
+
+          <!-- Author -->
+          <div class="mb-6">
+            <label for="author" class="block text-sm font-medium text-gray-700 mb-2">
+              Autor *
+            </label>
+            <input
+              id="author"
+              type="text"
+              formControlName="author"
+              class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-transparent transition-colors"
+              [class.border-red-500]="postForm.get('author')?.invalid && postForm.get('author')?.touched"
+            />
+            <app-error-message 
+              [control]="postForm.get('author')" 
+              fieldName="El autor">
+            </app-error-message>
+          </div>
+
+          <!-- Body -->
+          <div class="mb-6">
+            <label for="body" class="block text-sm font-medium text-gray-700 mb-2">
+              Contenido *
+            </label>
+            <textarea
+              id="body"
+              formControlName="body"
+              rows="8"
+              class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-transparent transition-colors resize-none"
+              [class.border-red-500]="postForm.get('body')?.invalid && postForm.get('body')?.touched"
+            ></textarea>
+            <app-error-message 
+              [control]="postForm.get('body')" 
+              fieldName="El contenido">
+            </app-error-message>
+          </div>
+
+          <!-- Tags -->
+          <div class="mb-6">
+            <label for="tags" class="block text-sm font-medium text-gray-700 mb-2">
+              Etiquetas (separadas por comas) *
+            </label>
+            <input
+              id="tags"
+              type="text"
+              formControlName="tags"
+              placeholder="Ej: tecnología, programación, web"
+              class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-transparent transition-colors"
+              [class.border-red-500]="postForm.get('tags')?.invalid && postForm.get('tags')?.touched"
+            />
+            <app-error-message 
+              [control]="postForm.get('tags')" 
+              fieldName="Las etiquetas">
+            </app-error-message>
+          </div>
+
+          <!-- Image URL -->
+          <div class="mb-6">
+            <label for="imageUrl" class="block text-sm font-medium text-gray-700 mb-2">
+              URL de la imagen *
+            </label>
+            <input
+              id="imageUrl"
+              type="text"
+              formControlName="imageUrl"
+              placeholder="https://ejemplo.com/imagen.jpg"
+              class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-transparent transition-colors"
+              [class.border-red-500]="postForm.get('imageUrl')?.invalid && postForm.get('imageUrl')?.touched"
+            />
+            <app-error-message 
+              [control]="postForm.get('imageUrl')" 
+              fieldName="La URL de la imagen">
+            </app-error-message>
+          </div>
+
+          <!-- Published -->
+          <div class="mb-8">
+            <label class="flex items-center gap-2 cursor-pointer">
+              <input
+                type="checkbox"
+                formControlName="published"
+                class="w-4 h-4 text-indigo-600 border-gray-300 rounded focus:ring-indigo-500"
+              />
+              <span class="text-sm font-medium text-gray-700">Publicado</span>
+            </label>
+          </div>
+
+          <!-- Actions -->
+          @if (!isViewMode) {
+            <div class="flex flex-col-reverse sm:flex-row gap-3 justify-end">
+              <button
+                type="button"
+                (click)="goBack()"
+                [disabled]="isSaving"
+                class="px-6 py-2 border border-gray-300 text-gray-700 rounded-lg hover:bg-gray-50 font-medium transition-colors disabled:opacity-50"
+              >
+                Cancelar
+              </button>
+              <button
+                type="submit"
+                [disabled]="isSaving || postForm.invalid"
+                class="px-6 py-2 bg-indigo-600 hover:bg-indigo-700 text-white rounded-lg font-medium transition-colors disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2"
+              >
+                @if (isSaving) {
+                  <svg class="animate-spin h-5 w-5" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                    <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+                    <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                  </svg>
+                  <span>Guardando...</span>
+                } @else {
+                  <span>{{ isEditMode ? 'Actualizar' : 'Crear' }} Post</span>
+                }
+              </button>
+            </div>
+          }
+        </form>
+      </div>
+    }
+  </div>
+</div>

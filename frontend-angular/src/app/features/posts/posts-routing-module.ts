@@ -7,7 +7,22 @@ const routes: Routes = [
     loadComponent: () =>
       import('./pages/post-list/post-list').then(m => m.PostList),
   },
-  { path: '**', redirectTo: '' }
+  {
+    path: 'new',
+    loadComponent: () =>
+      import('./pages/post-detail/post-detail').then(m => m.PostDetail),
+  },
+  {
+    path: ':id',
+    loadComponent: () =>
+      import('./pages/post-detail/post-detail').then(m => m.PostDetail),
+  },
+  {
+    path: ':id/edit',
+    loadComponent: () =>
+      import('./pages/post-detail/post-detail').then(m => m.PostDetail),
+  },
+  { path: '**', redirectTo: 'auth/login' }
 ];
 
 @NgModule({

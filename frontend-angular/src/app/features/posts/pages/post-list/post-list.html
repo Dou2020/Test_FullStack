@@ -1,53 +1,97 @@
 <div class="min-h-screen bg-gray-50 py-6 sm:py-8 md:py-10 px-4 sm:px-6 lg:px-8">
   <div class="max-w-7xl mx-auto">
     <!-- Encabezado -->
-    <div class="mb-6 sm:mb-8 md:mb-10">
-      <h1 class="text-3xl sm:text-4xl md:text-5xl font-bold text-gray-900 mb-3 sm:mb-4">
-        Blog Posts
-      </h1>
-      <p class="text-base sm:text-lg text-gray-600">
-        Explora nuestros artículos y publicaciones
-      </p>
-    </div>
-
-    <!-- Estado de carga -->
-    <div *ngIf="isLoading" class="flex justify-center items-center py-12 sm:py-16 md:py-20">
-      <div class="animate-spin rounded-full h-12 w-12 sm:h-16 sm:w-16 border-b-2 border-blue-500"></div>
-    </div>
-
-    <!-- Mensaje de error -->
-    <div *ngIf="error && !isLoading" class="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded-lg mb-6">
-      <p class="text-sm sm:text-base">{{ error }}</p>
-      <button 
-        (click)="loadPosts()"
-        class="mt-3 bg-red-500 hover:bg-red-600 text-white px-4 py-2 rounded-lg text-sm font-medium transition-colors"
+    <div class="mb-6 sm:mb-8 md:mb-10 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
+      <div>
+        <h1 class="text-3xl sm:text-4xl md:text-5xl font-bold text-gray-900 mb-3 sm:mb-4">
+          Blog Posts
+        </h1>
+        <p class="text-base sm:text-lg text-gray-600">
+          Explora nuestros artículos y publicaciones
+        </p>
+      </div>
+      <button
+        (click)="createNewPost()"
+        class="bg-indigo-600 hover:bg-indigo-700 text-white px-6 py-3 rounded-lg font-medium transition-colors shadow-md flex items-center gap-2 justify-center sm:justify-start"
       >
-        Reintentar
+        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="currentColor" viewBox="0 0 16 16">
+          <path d="M8 4a.5.5 0 0 1 .5.5v3h3a.5.5 0 0 1 0 1h-3v3a.5.5 0 0 1-1 0v-3h-3a.5.5 0 0 1 0-1h3v-3A.5.5 0 0 1 8 4z"/>
+        </svg>
+        Nuevo Post
       </button>
     </div>
 
-    <!-- Grid de posts - Responsive -->
-    <div 
-      *ngIf="!isLoading && !error"
-      class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6 md:gap-8"
-    >
-      <app-post-item
-        *ngFor="let post of posts"
-        [post]="post"
-        (onEdit)="handleEdit($event)"
-        (onDelete)="handleDelete($event)"
-        (onView)="handleView($event)"
-        class="transform transition-transform duration-200 hover:-translate-y-1"
-      >
-      </app-post-item>
-    </div>
+    <!-- Loading Spinner -->
+    @if (isLoading) {
+      <app-loading-spinner 
+        [overlay]="false" 
+        size="large" 
+        message="Cargando posts...">
+      </app-loading-spinner>
+    }
 
-    <!-- Mensaje cuando no hay posts -->
-    <div 
-      *ngIf="!isLoading && !error && posts.length === 0"
-      class="text-center py-12 sm:py-16 md:py-20"
-    >
-      <p class="text-lg sm:text-xl text-gray-500">No hay posts disponibles</p>
-    </div>
+    <!-- Mensaje de error -->
+    @if (error && !isLoading) {
+      <div class="bg-red-50 border-l-4 border-red-500 p-4 mb-6 rounded-r-lg">
+        <div class="flex items-start">
+          <svg class="h-5 w-5 text-red-500 mt-0.5 mr-3 flex-shrink-0" fill="currentColor" viewBox="0 0 16 16">
+            <path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14zm0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16z"/>
+            <path d="M7.002 11a1 1 0 1 1 2 0 1 1 0 0 1-2 0zM7.1 4.995a.905.905 0 1 1 1.8 0l-.35 3.507a.552.552 0 0 1-1.1 0L7.1 4.995z"/>
+          </svg>
+          <div class="flex-1">
+            <p class="text-sm font-medium text-red-800">{{ error }}</p>
+            <button 
+              (click)="loadPosts()"
+              class="mt-3 inline-flex items-center px-4 py-2 bg-red-600 hover:bg-red-700 text-white text-sm font-medium rounded-lg transition-colors"
+            >
+              <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 mr-2" fill="currentColor" viewBox="0 0 16 16">
+                <path fill-rule="evenodd" d="M8 3a5 5 0 1 0 4.546 2.914.5.5 0 0 1 .908-.417A6 6 0 1 1 8 2v1z"/>
+                <path d="M8 4.466V.534a.25.25 0 0 1 .41-.192l2.36 1.966c.12.1.12.284 0 .384L8.41 4.658A.25.25 0 0 1 8 4.466z"/>
+              </svg>
+              Reintentar
+            </button>
+          </div>
+        </div>
+      </div>
+    }
+
+    <!-- Empty State -->
+    @if (!isLoading && !error && posts.length === 0) {
+      <app-empty-state
+        icon="inbox"
+        title="No hay posts aún"
+        message="Comienza creando tu primer post y comparte tu contenido con el mundo"
+        actionButtonText="Crear Primer Post"
+        (actionClick)="createNewPost()">
+      </app-empty-state>
+    }
+
+    <!-- Grid de posts - Responsive -->
+    @if (!isLoading && !error && posts.length > 0) {
+      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6 md:gap-8">
+        @for (post of posts; track post._id) {
+          <app-post-item
+            [post]="post"
+            (onEdit)="handleEdit($event)"
+            (onDelete)="handleDelete($event)"
+            (onView)="handleView($event)"
+            class="transform transition-transform duration-200 hover:-translate-y-1">
+          </app-post-item>
+        }
+      </div>
+    }
   </div>
 </div>
+
+<!-- Confirm Delete Dialog -->
+<app-confirm-dialog
+  [isOpen]="showDeleteDialog"
+  title="¿Eliminar post?"
+  message="Esta acción no se puede deshacer. El post será eliminado permanentemente."
+  confirmText="Sí, eliminar"
+  cancelText="Cancelar"
+  type="danger"
+  [loading]="isDeleting"
+  (confirm)="confirmDelete()"
+  (cancel)="cancelDelete()">
+</app-confirm-dialog>

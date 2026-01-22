@@ -3,6 +3,8 @@ import { ConfigModule, ConfigService } from '@nestjs/config';
 import { MongooseModule } from '@nestjs/mongoose';
 import { CommentsModule } from './comments/comments.module';
 import { PostsModule } from './posts/posts.module';
+import { UsersModule } from './users/users.module';
+import { LoginModule } from './login/login.module';
 
 @Module({
   imports: [
@@ -18,7 +20,9 @@ import { PostsModule } from './posts/posts.module';
       inject: [ConfigService],
     }),
     CommentsModule,
-    PostsModule
+    PostsModule,
+    UsersModule,
+    LoginModule
   ],
   controllers: [],
   providers: [],

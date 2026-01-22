@@ -1,1 +1,19 @@
-<p>loading-spinner works!</p>
+<!-- Spinner con overlay -->
+@if (overlay) {
+  <div class="fixed inset-0 bg-gray-900 bg-opacity-50 z-50 flex items-center justify-center">
+    <div class="bg-white rounded-lg p-8 shadow-2xl flex flex-col items-center space-y-4">
+      <div [class]="sizeClass + ' border-4 border-gray-200 border-t-indigo-600 rounded-full animate-spin'"></div>
+      @if (showMessage) {
+        <p class="text-gray-700 font-medium">{{ message }}</p>
+      }
+    </div>
+  </div>
+} @else {
+  <!-- Spinner inline -->
+  <div class="flex items-center justify-center space-x-3">
+    <div [class]="sizeClass + ' border-4 border-gray-200 border-t-indigo-600 rounded-full animate-spin'"></div>
+    @if (showMessage) {
+      <span class="text-gray-700 font-medium">{{ message }}</span>
+    }
+  </div>
+}

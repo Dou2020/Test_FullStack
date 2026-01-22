@@ -1,0 +1,80 @@
+@if (isOpen) {
+  <!-- Backdrop -->
+  <div 
+    class="fixed inset-0 bg-gray-900 bg-opacity-50 z-50 flex items-center justify-center p-4 transition-opacity"
+    (click)="onBackdropClick($event)"
+  >
+    <!-- Dialog -->
+    <div 
+      class="bg-white rounded-lg shadow-2xl max-w-md w-full transform transition-all"
+      role="dialog"
+      aria-modal="true"
+    >
+      <!-- Content -->
+      <div class="p-6">
+        <!-- Icon -->
+        <div class="flex items-center justify-center mb-4">
+          <div [class]="'rounded-full p-3 ' + (type === 'danger' ? 'bg-red-100' : type === 'warning' ? 'bg-yellow-100' : 'bg-indigo-100')">
+            <svg 
+              xmlns="http://www.w3.org/2000/svg" 
+              [class]="'h-8 w-8 ' + iconColor"
+              fill="currentColor" 
+              viewBox="0 0 16 16"
+            >
+              @if (type === 'danger') {
+                <path d="M8.982 1.566a1.13 1.13 0 0 0-1.96 0L.165 13.233c-.457.778.091 1.767.98 1.767h13.713c.889 0 1.438-.99.98-1.767L8.982 1.566zM8 5c.535 0 .954.462.9.995l-.35 3.507a.552.552 0 0 1-1.1 0L7.1 5.995A.905.905 0 0 1 8 5zm.002 6a1 1 0 1 1 0 2 1 1 0 0 1 0-2z"/>
+              } @else if (type === 'warning') {
+                <path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14zm0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16z"/>
+                <path d="M7.002 11a1 1 0 1 1 2 0 1 1 0 0 1-2 0zM7.1 4.995a.905.905 0 1 1 1.8 0l-.35 3.507a.552.552 0 0 1-1.1 0L7.1 4.995z"/>
+              } @else {
+                <path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14zm0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16z"/>
+                <path d="m8.93 6.588-2.29.287-.082.38.45.083c.294.07.352.176.288.469l-.738 3.468c-.194.897.105 1.319.808 1.319.545 0 1.178-.252 1.465-.598l.088-.416c-.2.176-.492.246-.686.246-.275 0-.375-.193-.304-.533L8.93 6.588zM9 4.5a1 1 0 1 1-2 0 1 1 0 0 1 2 0z"/>
+              }
+            </svg>
+          </div>
+        </div>
+
+        <!-- Title -->
+        <h3 class="text-xl font-bold text-gray-900 text-center mb-3">
+          {{ title }}
+        </h3>
+
+        <!-- Message -->
+        <p class="text-gray-600 text-center mb-6">
+          {{ message }}
+        </p>
+      </div>
+
+      <!-- Actions -->
+      <div class="bg-gray-50 px-6 py-4 flex flex-col-reverse sm:flex-row gap-3 rounded-b-lg">
+        <!-- Cancel Button -->
+        <button
+          type="button"
+          (click)="onCancel()"
+          [disabled]="loading"
+          class="flex-1 px-4 py-2.5 bg-white border border-gray-300 rounded-lg text-gray-700 font-medium hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
+        >
+          {{ cancelText }}
+        </button>
+
+        <!-- Confirm Button -->
+        <button
+          type="button"
+          (click)="onConfirm()"
+          [disabled]="loading"
+          [class]="'flex-1 px-4 py-2.5 text-white font-medium rounded-lg focus:outline-none focus:ring-2 focus:ring-offset-2 disabled:opacity-50 disabled:cursor-not-allowed transition-colors flex items-center justify-center ' + confirmButtonClass"
+        >
+          @if (loading) {
+            <svg class="animate-spin h-5 w-5 mr-2" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+              <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+              <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+            </svg>
+            <span>Procesando...</span>
+          } @else {
+            <span>{{ confirmText }}</span>
+          }
+        </button>
+      </div>
+    </div>
+  </div>
+}

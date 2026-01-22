@@ -1,10 +1,18 @@
 import { Routes } from '@angular/router';
 
 export const routes: Routes = [
-{
-    path: '',
+  {
+    path: 'auth',
+    loadChildren: () =>
+      import('./features/public/public-routing-module').then(m => m.PublicRoutingModule),
+  },
+  {
+    path: 'posts',
     loadChildren: () =>
       import('./features/posts/posts-routing-module').then(m => m.PostsRoutingModule),
   },
-  { path: '**', redirectTo: '' }
+  { 
+    path: '**', 
+    redirectTo: 'auth/login'
+  }
 ];
