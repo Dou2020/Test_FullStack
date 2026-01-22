@@ -12,6 +12,15 @@ export class Post extends Document {
     @Prop({ required: true })
     author: string;
 
+    @Prop({ type: [String], default: [] })
+    tags: string[];
+
+    @Prop({ default: null })
+    imageUrl: string;
+
+    @Prop({ default: false })
+    published: boolean;
+
     @Prop()
     createdAt: Date;
 

@@ -4,6 +4,10 @@ import {
     IsNotEmpty,
     MinLength,
     MaxLength,
+    IsOptional,
+    IsBoolean,
+    IsArray,
+    IsUrl,
 } from 'class-validator';
 import { Transform } from 'class-transformer';
 
@@ -44,4 +48,33 @@ export class CreatePostDto {
     @MaxLength(100, { message: 'El nombre del autor no puede exceder 100 caracteres' })
     @Transform(({ value }) => value?.trim())
     author: string;
+
+    @ApiProperty({
+        description: 'Etiquetas del post',
+        example: ['tecnología', 'programación'],
+        type: [String],
+        required: false,
+    })
+    @IsOptional()
+    @IsArray({ message: 'Las etiquetas deben ser un arreglo' })
+    @IsString({ each: true, message: 'Cada etiqueta debe ser un texto' })
+    tags?: string[];
+
+    @ApiProperty({
+        description: 'URL de la imagen del post',
+        example: 'https://www.neh.gov/sites/default/files/styles/featured_image_page/public/2018-06/openbooks.jpg?h=b69e0e0e&itok=s8jNjnkU',
+        required: false,
+    })
+    @IsOptional()
+    @IsUrl({}, { message: 'La URL de la imagen no es válida' })
+    imageUrl?: string;
+
+    @ApiProperty({
+        description: 'Estado de publicación del post',
+        example: true,
+        required: false,
+    })
+    @IsOptional()
+    @IsBoolean({ message: 'El estado de publicación debe ser verdadero o falso' })
+    published?: boolean;
 }
