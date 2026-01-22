@@ -6,4 +6,7 @@ export interface Post {
     tags: string[];
     imageUrl: string;
     published: boolean;
+    createdAt?: Date;
+    updatedAt?: Date;
+    deleteAt?: Date;
 }

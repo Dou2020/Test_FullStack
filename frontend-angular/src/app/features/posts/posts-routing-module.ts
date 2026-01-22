@@ -10,7 +10,7 @@ const routes: Routes = [
   {
     path: 'new',
     loadComponent: () =>
-      import('./pages/post-detail/post-detail').then(m => m.PostDetail),
+      import('./pages/post-create/post-create').then(m => m.PostCreate),
   },
   {
     path: ':id',
@@ -20,7 +20,7 @@ const routes: Routes = [
   {
     path: ':id/edit',
     loadComponent: () =>
-      import('./pages/post-detail/post-detail').then(m => m.PostDetail),
+      import('./pages/post-create/post-create').then(m => m.PostCreate),
   },
   { path: '**', redirectTo: 'auth/login' }
 ];
